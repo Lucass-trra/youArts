@@ -3,6 +3,11 @@ spring:
     url: jdbc:h2:mem:youArts_request_db
     username: lucas
     password: 1234
+  jpa:
+    show-sql: true
+    hibernate:
+      properties:
+        hibernate-format_sql: true
   h2:
     console:
       enabled: true

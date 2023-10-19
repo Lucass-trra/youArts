@@ -4,7 +4,6 @@ import com.youArt.API.enummeration.Status
 import jakarta.persistence.*
 
 @Entity
-@Table(name = "cliente")
 data class User(
     @Enumerated
     var status: Status = Status.IN_PROGRESS,

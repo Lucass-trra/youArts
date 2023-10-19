@@ -11,7 +11,6 @@ import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
 import java.time.LocalDate
 @Entity
-@Table(name = "comment")
 data class Comment(
     @Enumerated
     var status: Status = Status.IN_PROGRESS,

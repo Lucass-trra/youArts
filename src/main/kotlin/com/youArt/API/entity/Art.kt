@@ -4,7 +4,6 @@ import com.youArt.API.enummeration.Status
 import jakarta.persistence.*
 import java.time.LocalDate
 @Entity
-@Table(name = "art")
 data class Art(
     @Enumerated
     var status: Status = Status.IN_PROGRESS,
