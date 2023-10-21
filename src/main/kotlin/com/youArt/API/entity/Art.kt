@@ -28,7 +28,7 @@ data class Art(
     var updateAt: LocalDate,
 
     @ManyToOne
-    val user: User? = null,
+    var user: User? = null,
 
     @Column(nullable = false)
     @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE], mappedBy = "art")

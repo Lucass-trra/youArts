@@ -6,7 +6,10 @@ CREATE TABLE comment (
    created_at date NOT NULL,
    updated_at date NOT NULL,
    art_id BIGINT,
+   user_id BIGINT,
    CONSTRAINT pk_comment PRIMARY KEY (id)
 );
 
 ALTER TABLE comment ADD CONSTRAINT FK_COMMENT_ON_ART FOREIGN KEY (art_id) REFERENCES art (id);
+
+ALTER TABLE comment ADD CONSTRAINT FK_COMMENT_ON_USER FOREIGN KEY (user_id) REFERENCES "user" (id);

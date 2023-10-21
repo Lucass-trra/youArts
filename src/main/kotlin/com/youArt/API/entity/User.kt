@@ -26,7 +26,12 @@ data class User(
 
     @Column(nullable = false)
     @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE], mappedBy = "user")
-    private val arts: MutableList<Art> = mutableListOf()
+    private val arts: MutableList<Art> = mutableListOf(),
+
+    @Column(nullable = false)
+    @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE], mappedBy = "user")
+    private val comments: MutableList<Comment> = mutableListOf()
+
 )
 
 

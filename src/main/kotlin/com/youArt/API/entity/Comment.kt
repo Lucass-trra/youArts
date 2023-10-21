@@ -32,5 +32,8 @@ data class Comment(
     var updatedAt: LocalDate,
 
     @ManyToOne
-    val art: Art? = null
+    val art: Art? = null,
+
+    @ManyToOne
+    var user: User? = null
 )
