@@ -2,6 +2,7 @@ package com.youArt.API.service.impl
 
 import com.youArt.API.entity.Art
 import com.youArt.API.entity.User
+import com.youArt.API.enummeration.Status
 import com.youArt.API.repository.UserRepository
 import com.youArt.API.service.IGeneralServices
 import org.springframework.stereotype.Service
@@ -10,7 +11,10 @@ import org.springframework.stereotype.Service
 class UserService(
     private val userRepository: UserRepository
 ): IGeneralServices<User> {
-    override fun create(obj: User): User = this.userRepository.save(obj)
+    override fun create(obj: User): User {
+        obj.status = Status.APPROVED
+        return this.userRepository.save(obj)
+    }
     override fun readById(id: Long): User = this.userRepository.findById(id).orElseThrow {
         throw RuntimeException("the user with id $id was not found")
     }

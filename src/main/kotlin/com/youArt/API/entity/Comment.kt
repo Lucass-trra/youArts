@@ -1,22 +1,19 @@
 package com.youArt.API.entity
 
 import com.youArt.API.enummeration.Status
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.Enumerated
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.ManyToOne
-import jakarta.persistence.Table
+import jakarta.persistence.*
+import org.springframework.data.annotation.CreatedDate
+import org.springframework.data.annotation.LastModifiedDate
+import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.LocalDate
 @Entity
+@EntityListeners(AuditingEntityListener::class)
 data class Comment(
     @Enumerated
     var status: Status = Status.IN_PROGRESS,
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
 
     @Column(nullable = false)
@@ -25,14 +22,16 @@ data class Comment(
     @Column(nullable = false)
     var text: String,
 
-    @Column(nullable = false)
-    val createdAt: LocalDate,
+    @CreatedDate
+    @Column(nullable = true, updatable = false)
+    var createdAt: LocalDate? = null,
 
-    @Column(nullable = false)
-    var updatedAt: LocalDate,
+    @LastModifiedDate
+    @Column(nullable = true)
+    var updatedAt: LocalDate? = null,
 
     @ManyToOne
-    val art: Art? = null,
+    var art: Art? = null,
 
     @ManyToOne
     var user: User? = null

@@ -1,6 +1,7 @@
 package com.youArt.API.service.impl
 
 import com.youArt.API.entity.Art
+import com.youArt.API.enummeration.Status
 import com.youArt.API.repository.ArtRepository
 import com.youArt.API.service.IGeneralServices
 import org.springframework.stereotype.Service
@@ -13,6 +14,7 @@ class ArtService(
     override fun create(obj: Art): Art {
         obj.apply {
             user = userService.readById(obj.user?.id!!)
+            status = Status.APPROVED
         }
         return artRepository.save(obj)
     }
@@ -26,20 +28,5 @@ class ArtService(
         if(art.user?.id == requestId) this.artRepository.delete(art) else
             throw RuntimeException("you are not the creator of this art to delete it")
     }
-
-    //specific functions about this service
-    fun deleteSomeById(vararg artIdList: Long, requestId: Long) {
-        var art: Art
-        artIdList.forEach {
-            art = this.artRepository.findById(it).orElseThrow {
-                throw RuntimeException("this art does not exist")
-            }
-
-            if(art.user?.id == requestId) {
-                this.artRepository.delete(art)
-            }else {
-                throw RuntimeException("you are not the creator of this art to delete it")
-            }
-        }
-    }
+    fun readAllByUser(userId: Long) = this.artRepository.readAllByUserId(userId)
 }
