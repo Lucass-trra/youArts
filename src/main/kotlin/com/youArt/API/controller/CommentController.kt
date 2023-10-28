@@ -5,6 +5,7 @@ import com.youArt.API.DTO.update.CommentUpdateDto
 import com.youArt.API.DTO.view.CommentView
 import com.youArt.API.entity.Comment
 import com.youArt.API.service.impl.CommentService
+import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -23,7 +24,7 @@ class CommentController(
     private val commentService: CommentService
 ) {
     @PostMapping
-    fun create(@RequestBody commentDto: CommentDto): ResponseEntity<String> {
+    fun create(@RequestBody @Valid commentDto: CommentDto): ResponseEntity<String> {
         val responseComment = this.commentService.create(commentDto.toEntity())
 
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -40,7 +41,7 @@ class CommentController(
     @PatchMapping("/{id}")
     fun updateById (@PathVariable id: Long,
                     @RequestParam(value = "requestId") requestId: Long,
-                    @RequestBody commentUpdateDto:CommentUpdateDto):ResponseEntity<CommentView> {
+                    @RequestBody @Valid commentUpdateDto:CommentUpdateDto):ResponseEntity<CommentView> {
         val comment: Comment = this.commentService.readById(id)
 
         if(comment.user?.id == requestId) {

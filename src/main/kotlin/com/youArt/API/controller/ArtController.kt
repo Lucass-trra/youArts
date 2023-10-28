@@ -8,6 +8,7 @@ import com.youArt.API.entity.Art
 import com.youArt.API.entity.Comment
 import com.youArt.API.service.impl.ArtService
 import com.youArt.API.service.impl.CommentService
+import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -28,7 +29,7 @@ class ArtController(
     private val commentService: CommentService
 ) {
     @PostMapping
-    fun create(@RequestBody artDto: ArtDto): ResponseEntity<String> {
+    fun create(@RequestBody @Valid artDto: ArtDto): ResponseEntity<String> {
         val responseArt = this.artService.create(artDto.toEntity())
 
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -55,7 +56,7 @@ class ArtController(
     @PatchMapping("/{id}")
     fun updateById (@PathVariable id: Long,
                     @RequestParam(value = "requestId") requestId: Long,
-                    @RequestBody artUpdateDto: ArtUpdateDto):ResponseEntity<ArtView> {
+                    @RequestBody @Valid artUpdateDto: ArtUpdateDto):ResponseEntity<ArtView> {
         val art: Art = this.artService.readById(id)
 
         if(art.user?.id == requestId) {

@@ -2,6 +2,7 @@ package com.youArt.API.service.impl
 
 import com.youArt.API.entity.Art
 import com.youArt.API.enummeration.Status
+import com.youArt.API.exception.ResourceNotFoundException
 import com.youArt.API.repository.ArtRepository
 import com.youArt.API.service.IGeneralServices
 import org.springframework.stereotype.Service
@@ -19,7 +20,7 @@ class ArtService(
         return artRepository.save(obj)
     }
     override fun readById(id: Long): Art =  this.artRepository.findById(id).orElseThrow {
-        RuntimeException("Art with the $id was not found")
+        ResourceNotFoundException("Art with the $id was not found")
     }
     override fun deleteById(id: Long, requestId: Long) {
         val art: Art = this.artRepository.findById(id).orElseThrow {

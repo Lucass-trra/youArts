@@ -2,6 +2,7 @@ package com.youArt.API.service.impl
 
 import com.youArt.API.entity.Comment
 import com.youArt.API.enummeration.Status
+import com.youArt.API.exception.ResourceNotFoundException
 import com.youArt.API.repository.CommentRepository
 import com.youArt.API.service.IGeneralServices
 import org.springframework.stereotype.Service
@@ -26,7 +27,7 @@ class CommentService(
     fun readAllByUser(userId: Long) = this.commentRepository.readAllByUserId(userId)
 
     override fun readById(id: Long): Comment = this.commentRepository.findById(id).orElseThrow {
-            RuntimeException("Comment with the id $id was not found")
+        ResourceNotFoundException("Comment with the id $id was not found")
     }
     override fun deleteById(id: Long, requestId: Long) {
         val comment: Comment = this.commentRepository.findById(id).orElseThrow {

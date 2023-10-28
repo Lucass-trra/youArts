@@ -1,8 +1,9 @@
 package com.youArt.API.service.impl
 
-import com.youArt.API.entity.Art
+
 import com.youArt.API.entity.User
 import com.youArt.API.enummeration.Status
+import com.youArt.API.exception.ResourceNotFoundException
 import com.youArt.API.repository.UserRepository
 import com.youArt.API.service.IGeneralServices
 import org.springframework.stereotype.Service
@@ -16,7 +17,7 @@ class UserService(
         return this.userRepository.save(obj)
     }
     override fun readById(id: Long): User = this.userRepository.findById(id).orElseThrow {
-        throw RuntimeException("the user with id $id was not found")
+        throw ResourceNotFoundException("the user with id $id was not found")
     }
     override fun deleteById(id: Long, requestId: Long) {
         val user: User = this.userRepository.findById(id).orElseThrow {

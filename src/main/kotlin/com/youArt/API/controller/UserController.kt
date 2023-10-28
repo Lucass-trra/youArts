@@ -11,6 +11,7 @@ import com.youArt.API.entity.User
 import com.youArt.API.service.impl.ArtService
 import com.youArt.API.service.impl.CommentService
 import com.youArt.API.service.impl.UserService
+import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatusCode
 import org.springframework.http.ResponseEntity
@@ -33,7 +34,7 @@ class UserController(
     private val artService: ArtService
 ) {
     @PostMapping
-    fun create(@RequestBody userDto: UserDto): ResponseEntity<String>  {
+    fun create(@RequestBody @Valid userDto: UserDto): ResponseEntity<String>  {
         val responseUser = this.userService.create(userDto.toEntity())
 
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -69,7 +70,7 @@ class UserController(
     @PatchMapping("/{id}")
     fun updateById(@PathVariable id: Long,
                    @RequestParam(value = "requestId") requestId: Long,
-                   @RequestBody userUpdateDto: UserUpdateDto):ResponseEntity<UserView> {
+                   @RequestBody @Valid userUpdateDto: UserUpdateDto):ResponseEntity<UserView> {
         val user: User = this.userService.readById(id)
 
         if(user.id == requestId) {
