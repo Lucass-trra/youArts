@@ -2,7 +2,7 @@ package com.youArt.API.service.impl
 
 import com.youArt.API.entity.Comment
 import com.youArt.API.enummeration.Status
-import com.youArt.API.exception.ResourceNotFoundException
+import com.youArt.API.exception.BusinessException
 import com.youArt.API.repository.CommentRepository
 import com.youArt.API.service.IGeneralServices
 import org.springframework.stereotype.Service
@@ -27,17 +27,17 @@ class CommentService(
     fun readAllByUser(userId: Long) = this.commentRepository.readAllByUserId(userId)
 
     override fun readById(id: Long): Comment = this.commentRepository.findById(id).orElseThrow {
-        ResourceNotFoundException("Comment with the id $id was not found")
+        BusinessException("Comment with the id $id was not found")
     }
     override fun deleteById(id: Long, requestId: Long) {
         val comment: Comment = this.commentRepository.findById(id).orElseThrow {
-            RuntimeException("this Comment does not exist")
+            BusinessException("this Comment does not exist")
         }
 
         if(comment.user?.id == requestId || comment.art?.user?.id == requestId)  {
             this.commentRepository.delete(comment)
         }else {
-            throw RuntimeException("you are not the creator of this comment or the art to delete it")
+            throw BusinessException("you are not the creator of this comment or the art to delete it")
         }
     }
 

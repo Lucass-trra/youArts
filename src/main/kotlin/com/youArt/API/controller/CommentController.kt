@@ -4,6 +4,7 @@ import com.youArt.API.DTO.post.CommentDto
 import com.youArt.API.DTO.update.CommentUpdateDto
 import com.youArt.API.DTO.view.CommentView
 import com.youArt.API.entity.Comment
+import com.youArt.API.exception.BusinessException
 import com.youArt.API.service.impl.CommentService
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
@@ -24,11 +25,11 @@ class CommentController(
     private val commentService: CommentService
 ) {
     @PostMapping
-    fun create(@RequestBody @Valid commentDto: CommentDto): ResponseEntity<String> {
+    fun create(@RequestBody @Valid commentDto: CommentDto): ResponseEntity<CommentView> {
         val responseComment = this.commentService.create(commentDto.toEntity())
 
         return ResponseEntity.status(HttpStatus.CREATED)
-            .body("the comment with this username: ${responseComment.userName} was posted successfully")
+            .body(CommentView(responseComment))
     }
 
     @GetMapping("/{id}")
@@ -49,7 +50,7 @@ class CommentController(
             val commentUpdated: Comment = this.commentService.create(commentToUpdate)
             return ResponseEntity.status(HttpStatus.OK).body(CommentView(commentUpdated))
         }else {
-            throw RuntimeException("you are not the user that create this account to update it")
+            throw BusinessException("you are not the user that create this account to update it")
         }
     }
 

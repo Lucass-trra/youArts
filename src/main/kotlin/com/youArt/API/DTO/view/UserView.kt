@@ -8,11 +8,13 @@ class UserView(
     val name: String,
     val phoneNumber: Long,
     val emailAddress: String,
+    val id: Long?
 ) {
 
     constructor(user: User): this (
         name = user.name,
         phoneNumber = user.phoneNumber,
         emailAddress = user.emailAddress,
+        id = user.id
     )
 }

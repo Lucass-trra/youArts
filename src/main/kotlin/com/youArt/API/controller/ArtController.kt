@@ -6,6 +6,7 @@ import com.youArt.API.DTO.view.ArtView
 import com.youArt.API.DTO.view.CommentListView
 import com.youArt.API.entity.Art
 import com.youArt.API.entity.Comment
+import com.youArt.API.exception.BusinessException
 import com.youArt.API.service.impl.ArtService
 import com.youArt.API.service.impl.CommentService
 import jakarta.validation.Valid
@@ -29,11 +30,11 @@ class ArtController(
     private val commentService: CommentService
 ) {
     @PostMapping
-    fun create(@RequestBody @Valid artDto: ArtDto): ResponseEntity<String> {
+    fun create(@RequestBody @Valid artDto: ArtDto): ResponseEntity<ArtView> {
         val responseArt = this.artService.create(artDto.toEntity())
 
         return ResponseEntity.status(HttpStatus.CREATED)
-            .body("the art with title: ${responseArt.title} was posted successfully")
+            .body(ArtView(responseArt))
     }
 
     @GetMapping("/{id}")
@@ -64,7 +65,7 @@ class ArtController(
             val artUpdated: Art = this.artService.create(artToUpdate)
             return ResponseEntity.status(HttpStatus.OK).body(ArtView(artUpdated))
         }else {
-            throw RuntimeException("you are not the user that create this account to update it")
+            throw BusinessException("you are not the user that create this account to update it")
         }
     }
 

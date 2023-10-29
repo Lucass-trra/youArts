@@ -33,8 +33,8 @@ class RestExceptionHandler {
         )
     }
 
-    @ExceptionHandler(ResourceNotFoundException::class)
-    fun handlerNotFound(ex: ResourceNotFoundException): ResponseEntity<ExceptionDetails> {
+    @ExceptionHandler(BusinessException::class)
+    fun handlerNotFound(ex: BusinessException): ResponseEntity<ExceptionDetails> {
         return ResponseEntity(
             ExceptionDetails(
                 title = "Bad request! please consult the documentation",

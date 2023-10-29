@@ -8,6 +8,7 @@ import com.youArt.API.DTO.view.UserView
 import com.youArt.API.entity.Art
 import com.youArt.API.entity.Comment
 import com.youArt.API.entity.User
+import com.youArt.API.exception.BusinessException
 import com.youArt.API.service.impl.ArtService
 import com.youArt.API.service.impl.CommentService
 import com.youArt.API.service.impl.UserService
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import java.util.stream.Collectors
 
@@ -34,11 +36,11 @@ class UserController(
     private val artService: ArtService
 ) {
     @PostMapping
-    fun create(@RequestBody @Valid userDto: UserDto): ResponseEntity<String>  {
+    fun create(@RequestBody @Valid userDto: UserDto): ResponseEntity<UserView>  {
         val responseUser = this.userService.create(userDto.toEntity())
 
         return ResponseEntity.status(HttpStatus.CREATED)
-            .body("user ${responseUser.name} created successfully")
+            .body(UserView(responseUser))
     }
 
     @GetMapping("/{id}")
@@ -78,11 +80,12 @@ class UserController(
             val userUpdated: User = this.userService.create(userToUpdate)
             return ResponseEntity.status(HttpStatus.OK).body(UserView(userUpdated))
         } else {
-            throw RuntimeException("you are not the user that create this account to update it")
+            throw BusinessException("you are not the user that create this account to update it")
         }
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deleteById(@PathVariable id: Long,
                    @RequestParam(value = "requestId") requestId: Long)
     = this.userService.deleteById(id,requestId)

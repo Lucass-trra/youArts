@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.Query
 
 interface ArtRepository: JpaRepository<Art,Long>{
     @Query(value = "SELECT * FROM art WHERE USER_ID = ?1", nativeQuery = true)
-    fun readAllByUserId(userId: Long):List<Art>
+    fun readAllByUserId(userId: Long?):List<Art>
 
 }
